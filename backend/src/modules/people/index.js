@@ -1,0 +1,1 @@
+export {  default as peopleRoutes } from "./people.routes.js";
