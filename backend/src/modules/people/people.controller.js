@@ -2,9 +2,9 @@ import { searchPeople, getPersonDetails } from "./people.service.js";
 
 export const searchPeopleController = async (req, res, next) => {
     try {
-        const { query } = req.validatedData;
+        const { query, page } = req.validated;
 
-        const people = await searchPeople(query);
+        const people = await searchPeople(query, page);
         
         res.status(200).json({
             success:true,
@@ -22,7 +22,7 @@ export const searchPeopleController = async (req, res, next) => {
 
 export const getPersonDetailsController = async (req, res, next) => {
     try {
-        const { id } = req.validatedData;
+        const { id } = req.validated;
 
         const person = await getPersonDetails(id);
         

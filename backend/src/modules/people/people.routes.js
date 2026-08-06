@@ -11,8 +11,8 @@ router.get("/health", (req,res)=> {
         message: "People api is running",
     });
 });
-router.get("/search", validate(searchPeopleSchema, "query"), searchPeopleController);
-router.get("/:id", validate(peopleIdSchema, "params"), getPersonDetailsController);
+router.get("/search", validate({query: searchPeopleSchema}), searchPeopleController);
+router.get("/:id", validate({params: peopleIdSchema}), getPersonDetailsController);
 
 
 export default router;

@@ -26,7 +26,7 @@ const mapMovieCard = (movie) => {
     }
 };
 
-const mapMovieList = (response) => {
+export const mapMovieList = (response) => {
     return {
         page: response.page,
 
@@ -76,3 +76,4 @@ export const mapMovieDetails = (movie) => {
     cast,
     };
 };
+

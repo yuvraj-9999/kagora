@@ -1,10 +1,11 @@
 import { tmdbClient } from "../../integrations/tmdb/index.js"
 import { mapPeopleSearch, mapPersonDetails } from "./people.mapper.js";
 
-export const searchPeople = async (query) => {
+export const searchPeople = async (query, page) => {
     const response = await tmdbClient.get("/search/person", {
         params: {
             query,
+            page,
         },
     });
 

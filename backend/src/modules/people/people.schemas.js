@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { paginationSchema } from "../../shared/schemas/pagination.schema.js";
 
-export const searchPeopleSchema = z.object({
+export const searchPeopleSchema = paginationSchema.extend({
     query: z.string().trim().min(1, "Search query is required"),
 });
 
