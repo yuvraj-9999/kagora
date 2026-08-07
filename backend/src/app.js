@@ -1,5 +1,5 @@
 import express from "express";
-import router from "./routes/index.js"
+import apiRoutes from "./api/index.js";
 import errorHandler from "./middlewares/error.middleware.js";
 import notFound from "./middlewares/notFound.middleware.js";
 
@@ -7,7 +7,7 @@ const app = express();
 
 app.use(express.json())
 
-app.use(router);
+app.use("/api", apiRoutes);
 
 // 404 handler
 app.use(notFound);
