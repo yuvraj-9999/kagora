@@ -45,18 +45,32 @@ export const mapMovieSearch = (response) => {
 };
 
 
+const mapCrewMember = (member) => ({
+    id: member.id,
+    name: member.name,
+    profileUrl: getImageUrl(member.profile_path),
+});
+
+const getCrewByJobs = (crew, jobs) => {
+    return crew
+        .filter((member) => jobs.includes(member.job))
+        .map(mapCrewMember);
+};
+
+const mapCastMember = (actor) => ({
+    id: actor.id,
+    name: actor.name,
+    character: actor.character,
+    profileUrl: getImageUrl(actor.profile_path),
+});
+
 export const mapMovieDetails = (movie) => {
 
-    const director = movie.credits.crew.find(
-        (member) => member.job === "Director"
-    );
+    const directors = getCrewByJobs(movie.credits.crew, ["Director"]);
 
-    const cast = movie.credits.cast.slice(0, 10).map((actor) => ({
-        id: actor.id,
-        name: actor.name,
-        character: actor.character,
-        profileUrl: getImageUrl(actor.profile_path),
-    })) 
+    const writers = getCrewByJobs(movie.credits.crew, ["Writer", "Screenplay"]);
+
+    const cast = movie.credits.cast.slice(0, 10).map(mapCastMember);
 
     return {
        ...mapMovieCard(movie),
@@ -71,9 +85,11 @@ export const mapMovieDetails = (movie) => {
 
     imdbId: movie.imdb_id,
 
-    director,
-
-    cast,
+    credits: {
+        directors,
+        writers,
+        cast,
+    }
     };
 };
 
