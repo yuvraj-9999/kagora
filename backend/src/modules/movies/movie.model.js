@@ -13,7 +13,7 @@ const castMemberSchema = new mongoose.Schema(
             required: true,
         },
 
-        charater: {
+        character: {
             type: String,
             default: null,
         },

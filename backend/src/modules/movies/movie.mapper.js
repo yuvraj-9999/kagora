@@ -2,7 +2,7 @@ import { getImageUrl } from "../../shared/utils/image.js";
 
 const mapMovieCard = (movie) => {
     return {
-        id: movie.id,
+        tmdbId: movie.id,
 
         title: movie.title,
 

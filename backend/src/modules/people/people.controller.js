@@ -1,4 +1,4 @@
-import { searchPeople, getPersonDetails } from "./people.service.js";
+import { searchPeople, getPersonDetails, getPersonCredits } from "./people.service.js";
 
 export const searchPeopleController = async (req, res, next) => {
     try {
@@ -37,4 +37,20 @@ export const getPersonDetailsController = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
+
+export const getPersonCreditsController = async (req, res, next) => {
+    try {
+        const { id } = req.validated;
+
+        const credits = await getPersonCredits(id);
+
+        res.status(200).json({
+            success: true,
+            message: "Person credits fetched successfully",
+            data: credits,
+        });
+    } catch (error) {
+        next(error);
+    }
+};

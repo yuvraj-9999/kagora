@@ -1,4 +1,3 @@
-import { response } from "express";
 import { tmdbClient } from "../../integrations/tmdb/index.js";
 import { mapMovieDetails, mapMovieSearch, mapMovieList } from "./movie.mapper.js";
 

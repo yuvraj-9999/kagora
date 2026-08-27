@@ -1,6 +1,6 @@
 import { Favorite } from "./favorite.model.js";
 
-export const findByUserAndMovie = async (userId, MovieId) => {
+export const findByUserAndMovie = async (userId, movieId) => {
     return Favorite.findOne({ userId, movieId });
 };
 

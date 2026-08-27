@@ -1,7 +1,7 @@
 import { Router } from "express";
 import validate from "../../shared/validators/validate.js";
 import { searchPeopleSchema, peopleIdSchema } from "./people.schemas.js";
-import { searchPeopleController, getPersonDetailsController } from "./people.controller.js";
+import { searchPeopleController, getPersonDetailsController, getPersonCreditsController } from "./people.controller.js";
 
 const router = Router();
 
@@ -12,6 +12,7 @@ router.get("/health", (req,res)=> {
     });
 });
 router.get("/search", validate({query: searchPeopleSchema}), searchPeopleController);
+router.get("/:id/credits", validate({params: peopleIdSchema}), getPersonCreditsController);
 router.get("/:id", validate({params: peopleIdSchema}), getPersonDetailsController);
 
 
