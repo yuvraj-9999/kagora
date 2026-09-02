@@ -6,6 +6,7 @@ const env = {
     PORT: process.env.PORT || 5000,
     TMDB_ACCESS_TOKEN: process.env.TMDB_ACCESS_TOKEN,
     MONGODB_URI: process.env.MONGODB_URI,
+    OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
     JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET,
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET,
     ACCESS_TOKEN_EXPIRY: process.env.ACCESS_TOKEN_EXPIRY,

@@ -34,6 +34,12 @@ export const getMovieReviews = async (tmdbId) => {
     return reviewRepository.findByMovie(movie._id);
 };
 
+export const getReviewsByUser = async (userId) => {
+    const reviews = await reviewRepository.findByUser(userId);
+
+    return reviews;
+};
+
 
 export const updateReview = async (userId, reviewId, {rating, review}) => {
     const existingReview = await reviewRepository.findById(reviewId);

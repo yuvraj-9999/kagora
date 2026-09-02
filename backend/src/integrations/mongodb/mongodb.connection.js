@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import env from "../../config/env.js";
-import { en } from "zod/v4/locales";
 
 export const connectDB = async () => {
     try {

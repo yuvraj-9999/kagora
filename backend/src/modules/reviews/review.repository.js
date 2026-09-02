@@ -19,6 +19,12 @@ export const findById = async(reviewId) => {
     return Review.findById(reviewId);
 };
 
+export const findByUser = async (userId) => {
+    return Review.find({ userId })
+        .populate("userId", "name avatar")
+        .sort({ createdAt: -1 });
+};
+
 export const update = async (reviewId, data) => {
     return Review.findByIdAndUpdate(
         reviewId,
