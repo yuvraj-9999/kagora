@@ -190,7 +190,7 @@ kagora/
 
 ---
 
-## What's Next & More Coming Soon
+## More Coming Soon
 
 Kagora is actively evolving into a complete AI-powered movie discovery platform.
 
