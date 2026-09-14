@@ -194,4 +194,4 @@ kagora/
 
 Kagora is actively evolving into a complete AI-powered movie discovery platform.
 
-More features, improvements, and optimizations are coming real soon.
+More features, improvements, and optimizations are coming real soon...stay tuned.
