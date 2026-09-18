@@ -11,6 +11,11 @@ export const findById = async(userId, conversationId) => {
     });
 };
 
+export const findAllByUserId = async (userId) => {
+    return Conversation.find({ userId })
+        .sort({ updatedAt: -1 });
+};
+
 export const addMessage = async (conversationId, message) => {
     return Conversation.findByIdAndUpdate(
         conversationId,
