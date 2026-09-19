@@ -8,6 +8,7 @@ import { favoriteRoutes } from "../../modules/favorites/index.js";
 import { watchlistRoutes } from "../../modules/watchlists/index.js";
 import { reviewRoutes } from "../../modules/reviews/index.js";
 import { aiRoutes } from "../../ai/index.js";
+import { conversationRoutes } from "../../modules/conversations/index.js";
 
 const router = Router();
 
@@ -26,5 +27,6 @@ router.use("/favorites", favoriteRoutes);
 router.use("/watchlists", watchlistRoutes);
 router.use("/reviews", reviewRoutes);
 router.use("/ai", aiRoutes);
+router.use("/conversations", conversationRoutes);
 
 export default router;

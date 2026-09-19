@@ -1,0 +1,1 @@
+export { default as conversationRoutes } from "./conversation.routes.js"
