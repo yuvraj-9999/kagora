@@ -1,4 +1,4 @@
-import { Conversation } from "./conversation.model";
+import { Conversation } from "./conversation.model.js";
 
 export const create = async(data) => {
     return Conversation.create(data);

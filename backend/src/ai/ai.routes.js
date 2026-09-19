@@ -6,6 +6,6 @@ import { aiRequestSchema } from "./ai.schemas.js";
 
 const router = Router();
 
-router.post("/", authMiddleware, validate({body: aiRequestSchema}), runAIController);
+router.post("/", authMiddleware, validate({ body: aiRequestSchema }), runAIController);
 
 export default router;

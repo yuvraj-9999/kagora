@@ -29,7 +29,7 @@ export const getConversations = async (userId) => {
 };
 
 export const addMessage = async (conversationId, userId, message) => {
-    const conversation = await conversationRepository.findById(conversationId, userId);
+    const conversation = await conversationRepository.findById(userId, conversationId,);
 
     if(!conversation){
         throw new Error("Conversation not found");
@@ -42,7 +42,7 @@ export const addMessage = async (conversationId, userId, message) => {
 };
 
 export const deleteConversation = async (userId, conversationId) => {
-    const conversation = await conversationRepository.findById(conversationId, userId);
+    const conversation = await conversationRepository.findById(userId, conversationId);
 
     if(!conversation){
         throw new Error("Conversation not found");
