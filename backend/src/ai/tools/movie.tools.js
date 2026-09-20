@@ -51,7 +51,7 @@ export const getPopularMoviesAITool = tool(
     },
     {
         name: "get_popular_movies",
-        description: "Get the currently popular movies",
+        description: "Get the currently popular movies.",
         schema: z.object({
             page: z.number().int().positive().default(1),
         }),
@@ -64,7 +64,7 @@ export const getMovieRecommendationsAITool = tool(
     },
     {
         name: "get_movie_recommendations",
-        description: "Get movie recommendations based on a movie's TMDB ID",
+        description: "Get movie recommendations based on a movie's TMDB ID.",
         schema: z.object({
             tmdbId: z.string().regex(/^\d+$/, "TMDB ID must be a positive integer"),
             page: z.number().int().positive().default(1),
