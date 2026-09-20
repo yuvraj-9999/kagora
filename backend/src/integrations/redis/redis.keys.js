@@ -23,13 +23,13 @@ export const recommendationsKey = (id, page) => {
 export const peopleSearchKey = (query, page) => {
     const normalizedQuery = query.trim().toLowerCase();
 
-    return `tmdb:people:search:${normalizedQuery}:${page}`;
+    return `tmdb:person:search:${normalizedQuery}:${page}`;
 };
 
 export const personDetailsKey = (id) => {
-    return `tmdb:people:details:${id}`;
+    return `tmdb:person:details:${id}`;
 };
 
 export const personCreditsKey = (id) => {
-    return `tmdb:people:credits:${id}`;
+    return `tmdb:person:credits:${id}`;
 };
