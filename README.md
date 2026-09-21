@@ -170,6 +170,8 @@ kagora/
    JWT_REFRESH_SECRET=your_jwt_refresh_secret
    ACCESS_TOKEN_EXPIRY=15m
    REFRESH_TOKEN_EXPIRY=7d
+   UPSTASH_REDIS_REST_URL=your_upstash_redis_rest_url
+   UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_rest_token
    ```
 4. Start the server in development mode:
    ```bash
