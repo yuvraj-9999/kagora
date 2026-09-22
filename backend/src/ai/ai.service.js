@@ -1,5 +1,5 @@
 import { agent } from "./agents/agent.js";
-import { HumanMessage, AIMessage } from "@langchain/core/messages";
+import { buildContext } from "./context/context.manager.js";
 import { createConversation, getConversationById, addMessage } from "../modules/conversations/conversation.service.js";
 
 export const runAI = async (message, userId, conversationId) => {
@@ -28,16 +28,9 @@ export const runAI = async (message, userId, conversationId) => {
         },
     );
 
-    const messages = [
-        ...conversation.messages.map((msg) => {
-            if(msg.role === "user"){
-                return new HumanMessage(msg.content);
-            }
-            return new AIMessage(msg.content);
-        }),
-        new HumanMessage(message),
-    ];
+    const { messages, tokenCount } = await buildContext(conversation, message);
 
+    console.log("Total tokens:", tokenCount);
 
     const result = await agent.invoke(
         {
