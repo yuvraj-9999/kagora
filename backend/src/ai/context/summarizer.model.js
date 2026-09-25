@@ -1,7 +1,7 @@
 import { ChatOpenRouter } from "@langchain/openrouter";
 import env from "../../config/env.js";
 
-export const model = new ChatOpenRouter({
-    model: "qwen/qwen3-235b-a22b-2507:free",
+export const summarizerModel = new ChatOpenRouter({
+    model: "nvidia/nemotron-3.5-lightning:free",
     apiKey: env.OPENROUTER_API_KEY,
 });

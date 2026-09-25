@@ -32,6 +32,11 @@ const conversationSchema = new mongoose.Schema(
             trim: true,
         },
 
+        summary: {
+            type: String,
+            default: "",
+        },
+
         messages: {
             type: [messageSchema],
             default: [],

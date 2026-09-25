@@ -41,14 +41,44 @@
 - **Manage Reviews**: Update and delete existing reviews with user ownership verification.
 
 ### 7. AI Agent & Conversational Assistant
-- **LangChain & OpenRouter Integration**: Conversational assistant capable of understanding natural language movie queries.
+
+- **LangChain & OpenRouter Integration**: Conversational AI assistant for natural-language movie discovery and exploration.
+
+- **Tool-Based AI Architecture**: The agent can interact with Kagora's movie, people, favorites, watchlist, and review data through specialized tools.
+
 - **Context-Aware Tool Calling**: AI Agent equipped with specialized tools:
-  - `searchMoviesAITool`, `getMovieDetailsAITool`, `getTrendingMoviesAITool`, `getPopularMoviesAITool`, `getMovieRecommendationsAITool`
-  - `searchPeopleAITool`, `getPersonDetailsAITool`, `getPersonCreditsAITool`
-  - `getFavoritesAITool`, `getFavoriteStatusAITool`
-  - `getWatchlistAITool`, `getWatchlistStatusAITool`
-  - `getMovieReviewsAITool`, `getMyReviewsAITool`
-- **Authenticated Context**: AI tools dynamically resolve data in the context of the authenticated user.
+  - `searchMoviesAITool`
+  - `getMovieDetailsAITool`
+  - `getTrendingMoviesAITool`
+  - `getPopularMoviesAITool`
+  - `getMovieRecommendationsAITool`
+  - `searchPeopleAITool`
+  - `getPersonDetailsAITool`
+  - `getPersonCreditsAITool`
+  - `getFavoritesAITool`
+  - `getFavoriteStatusAITool`
+  - `getWatchlistAITool`
+  - `getWatchlistStatusAITool`
+  - `getMovieReviewsAITool`
+  - `getMyReviewsAITool`
+
+- **Authenticated AI Context**: User-specific AI tools resolve data using the authenticated user's identity rather than relying on user-provided identifiers.
+
+- **Persistent Conversations**: Conversations are stored in MongoDB, allowing users to maintain multiple independent chat sessions.
+
+- **Conversation Management**: Supports creating, retrieving, listing, and deleting user conversations.
+
+- **Token-Aware Context Management**: Conversation history is analyzed using model-aware token counting rather than blindly sending the entire history to the model.
+
+- **Turn-Aware Context Selection**: When context becomes large, recent conversational turns are preserved while handling consecutive user messages and incomplete/orphaned messages safely.
+
+- **Conversation Summarization**: Older conversation history can be compressed into a persistent summary while recent messages remain available verbatim.
+
+- **Dual-Model AI Architecture**:
+  - **Main Agent**: Qwen3 235B A22B for tool usage, reasoning, and conversational interaction.
+  - **Summarizer**: Nemotron 3.5 Lightning for compressing older conversation history.
+
+- **Free AI Inference**: AI inference uses free OpenRouter model endpoints without paid model usage.
 
 ---
 
@@ -58,6 +88,7 @@
 - **Database & ODM**: MongoDB, Mongoose
 - **External Data**: TMDb (The Movie Database) API via Axios
 - **AI & LLM Orchestration**: LangChain (`@langchain/core`, `@langchain/openrouter`), OpenRouter API
+- **AI Models**: Qwen3 235B A22B (main agent), Nemotron 3.5 Lightning (conversation summarization)
 - **Validation**: Zod (request body, query parameters, route params)
 - **Security & Utilities**: JSON Web Tokens (`jsonwebtoken`), `bcrypt`, `dotenv`
 
@@ -182,13 +213,11 @@ kagora/
 
 ## In Progress
 
-- Persistent conversation history
-- Multiple conversations per user
-- Conversation management APIs
-- Redis caching
+- AI context compaction and persistent conversation summarization
 - Frontend application
 - AI interaction and UX improvements
 - AI inference and tool-execution optimization
+- End-to-end testing and production stabilization
 
 ---
 
