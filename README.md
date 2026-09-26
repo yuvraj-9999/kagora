@@ -213,10 +213,10 @@ kagora/
 
 ## In Progress
 
-- AI context compaction and persistent conversation summarization
+- AI context performance and inference optimization
 - Frontend application
 - AI interaction and UX improvements
-- AI inference and tool-execution optimization
+- BullMQ background job architecture
 - End-to-end testing and production stabilization
 
 ---
