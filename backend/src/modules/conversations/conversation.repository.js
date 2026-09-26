@@ -25,7 +25,7 @@ export const addMessage = async (conversationId, message) => {
             },
         },
         {
-            new: true,
+            returnDocument: "after"
         }
     );
 };

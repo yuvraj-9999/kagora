@@ -28,11 +28,9 @@ export const runAI = async (message, userId, conversationId) => {
         },
     );
 
-    const { messages, tokenCount, recentTokenCount, needsCompaction } = await buildContext(conversation, message);
+    const { messages, contextTokenCount } = await buildContext(conversation, message);
 
-    console.log("Total tokens:", tokenCount);
-    console.log("Recent tokens:", recentTokenCount);
-    console.log("Needs compaction:", needsCompaction);
+    console.log("Context token count:", contextTokenCount);
 
     const result = await agent.invoke(
         {
