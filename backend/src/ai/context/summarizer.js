@@ -1,4 +1,5 @@
 import { summarizerModel } from "./summarizer.model.js";
+import { SUMMARY_TOKEN_BUDGET } from "./context.config.js";
 
 export const generateSummary = async (existingSummary, olderMessages) => {
     const conversation = olderMessages.map((message) => {
@@ -19,6 +20,8 @@ export const generateSummary = async (existingSummary, olderMessages) => {
         - relevant movies, actors, directors, and other entities
         - unresolved questions or context
         - important relationships between topics
+
+    Keep the updated summary within approximately ${SUMMARY_TOKEN_BUDGET} tokens.
 
     Do not:
         - invent information

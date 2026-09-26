@@ -33,3 +33,11 @@ export const addMessage = async (conversationId, message) => {
 export const remove = async (conversationId) => {
     return Conversation.findByIdAndDelete(conversationId);
 };
+
+export const updateSummary = async (conversationId, summary) => {
+    return Conversation.findByIdAndUpdate(
+        conversationId,
+        { summary },
+        { returnDocument: "after" },
+    );
+};

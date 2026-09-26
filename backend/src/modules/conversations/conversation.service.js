@@ -54,3 +54,13 @@ export const deleteConversation = async (userId, conversationId) => {
         message: "Conversation deleted successfully",
     };
 };
+
+export const updateConversationSummary = async ( conversationId, userId, summary ) => {
+    const conversation = await conversationRepository.findById( userId, conversationId )
+
+    if(!conversation){
+        throw new Error("Conversation not found");
+    }
+
+    return conversationRepository.updateSummary(conversationId, summary );
+};
