@@ -1,10 +1,10 @@
 import { HumanMessage, AIMessage, SystemMessage } from "@langchain/core/messages";
 import { countMessageTokens } from "./token.counter.js";
-import { RECENT_CONTEXT_TOKEN_BUDGET, CONTEXT_COMPACTION_THRESHOLD } from "./context.config.js";
+import { RECENT_CONTEXT_TOKEN_BUDGET, CONTEXT_COMPACTION_THRESHOLD, CONTEXT_TOKEN_BUDGET } from "./context.config.js";
 import { generateSummary } from "./summarizer.js";
 import { updateConversationSummary } from "../../modules/conversations/conversation.service.js";
 
-const selectRecentMessages = async (messages) => {
+const selectRecentMessages = async (messages, tokenBudget) => {
     const recentMessages = [];
     let recentTokenCount = 0;
     let startIndex = null;
@@ -15,7 +15,7 @@ const selectRecentMessages = async (messages) => {
         if (current._getType() === "human") {
             const messageTokens = await countMessageTokens([current]);
 
-            if (recentTokenCount + messageTokens > RECENT_CONTEXT_TOKEN_BUDGET) {
+            if (recentTokenCount + messageTokens > tokenBudget) {
                 break;
             }
 
@@ -36,7 +36,7 @@ const selectRecentMessages = async (messages) => {
                     previous,
                 ]);
 
-                if (recentTokenCount + turnTokens > RECENT_CONTEXT_TOKEN_BUDGET) {
+                if (recentTokenCount + turnTokens > tokenBudget) {
                     break;
                 }
 
@@ -50,7 +50,7 @@ const selectRecentMessages = async (messages) => {
 
             const messageTokens = await countMessageTokens(current)
 
-            if (recentTokenCount + messageTokens > RECENT_CONTEXT_TOKEN_BUDGET) {
+            if (recentTokenCount + messageTokens > tokenBudget) {
                 break;
             }
 
@@ -74,18 +74,24 @@ export const buildContext = async (conversation, currentMessage) => {
         if (message.role === "user") {
             return new HumanMessage(message.content);
         }
+
         return new AIMessage(message.content);
     });
 
     messages.push(new HumanMessage(currentMessage));
+
     let contextMessages = messages;
 
-    const tokenCount = await countMessageTokens(messages)
+    console.time("Token count");
 
-    const needsCompaction = tokenCount >= CONTEXT_COMPACTION_THRESHOLD;
+    const tokenCount = await countMessageTokens(messages);
+
+    console.timeEnd("Token count");
+
+    const needsCompaction =
+        tokenCount >= CONTEXT_COMPACTION_THRESHOLD;
 
     if (!needsCompaction) {
-
         return {
             messages,
             tokenCount,
@@ -93,11 +99,12 @@ export const buildContext = async (conversation, currentMessage) => {
         };
     }
 
-    const recentContext = await selectRecentMessages(messages);
-
+    const recentContext = await selectRecentMessages(
+        messages,
+        RECENT_CONTEXT_TOKEN_BUDGET
+    );
 
     if (
-        needsCompaction &&
         recentContext.startIndex !== null &&
         recentContext.startIndex > 0
     ) {
@@ -106,10 +113,14 @@ export const buildContext = async (conversation, currentMessage) => {
             recentContext.startIndex
         );
 
+        console.time("Summarizer");
+
         const updatedSummary = await generateSummary(
             conversation.summary,
             olderMessages
         );
+
+        console.timeEnd("Summarizer");
 
         await updateConversationSummary(
             conversation._id,
@@ -117,19 +128,33 @@ export const buildContext = async (conversation, currentMessage) => {
             updatedSummary
         );
 
+        const summaryMessage = new SystemMessage(
+            `Conversation summary:\n${updatedSummary}`
+        );
+
+        const summaryTokenCount = await countMessageTokens([
+            summaryMessage,
+        ]);
+
+        const remainingTokenBudget =
+            CONTEXT_TOKEN_BUDGET - summaryTokenCount;
+
+        const finalRecentContext = await selectRecentMessages(
+            messages,
+            remainingTokenBudget
+        );
+
         contextMessages = [
-            new SystemMessage(
-                `Conversation summary: \n${updatedSummary}`
-            ),
-            ...recentContext.messages,
+            summaryMessage,
+            ...finalRecentContext.messages,
         ];
     }
 
-    const contextTokenCount = await countMessageTokens(contextMessages);
+    const contextTokenCount =
+        await countMessageTokens(contextMessages);
 
     return {
         messages: contextMessages,
         contextTokenCount,
     };
-
 };

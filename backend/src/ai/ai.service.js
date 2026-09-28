@@ -28,9 +28,15 @@ export const runAI = async (message, userId, conversationId) => {
         },
     );
 
+    console.time("Context");
+
     const { messages, contextTokenCount } = await buildContext(conversation, message);
 
+    console.timeEnd("Context");
+
     console.log("Context token count:", contextTokenCount);
+
+    console.time("Agent");
 
     const result = await agent.invoke(
         {
@@ -42,6 +48,8 @@ export const runAI = async (message, userId, conversationId) => {
             },
         }
     );
+
+    console.timeEnd("Agent");
 
     const assistantResponse = result.messages[result.messages.length - 1];
 
