@@ -105,50 +105,20 @@ export const buildContext = async (conversation, currentMessage) => {
     );
 
     if (
-        recentContext.startIndex !== null &&
-        recentContext.startIndex > 0
-    ) {
-        const olderMessages = messages.slice(
-            0,
-            recentContext.startIndex
-        );
-
-        console.time("Summarizer");
-
-        const updatedSummary = await generateSummary(
-            conversation.summary,
-            olderMessages
-        );
-
-        console.timeEnd("Summarizer");
-
-        await updateConversationSummary(
-            conversation._id,
-            conversation.userId,
-            updatedSummary
-        );
-
-        const summaryMessage = new SystemMessage(
-            `Conversation summary:\n${updatedSummary}`
-        );
-
-        const summaryTokenCount = await countMessageTokens([
-            summaryMessage,
-        ]);
-
-        const remainingTokenBudget =
-            CONTEXT_TOKEN_BUDGET - summaryTokenCount;
-
-        const finalRecentContext = await selectRecentMessages(
-            messages,
-            remainingTokenBudget
-        );
-
+    recentContext.startIndex !== null &&
+    recentContext.startIndex > 0
+) {
+    if (conversation.summary) {
         contextMessages = [
-            summaryMessage,
-            ...finalRecentContext.messages,
+            new SystemMessage(
+                `Conversation summary:\n${conversation.summary}`
+            ),
+            ...recentContext.messages,
         ];
+    } else {
+        contextMessages = recentContext.messages;
     }
+}
 
     const contextTokenCount =
         await countMessageTokens(contextMessages);
