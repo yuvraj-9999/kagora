@@ -1,11 +1,12 @@
-import { model } from "../agents/model.js";
+import { encodingForModel } from "js-tiktoken";
+
+const encoding = encodingForModel("gpt-4");
 
 export const countMessageTokens = async (messages) => {
     let totalTokens = 0;
-
     for(const message of messages){
-        totalTokens += await model.getNumTokens(message.content);
+        totalTokens += encoding.encode(message.content).length;
     }
 
     return totalTokens;
-};
+}
