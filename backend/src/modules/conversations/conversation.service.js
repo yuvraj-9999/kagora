@@ -55,12 +55,12 @@ export const deleteConversation = async (userId, conversationId) => {
     };
 };
 
-export const updateConversationSummary = async ( conversationId, userId, summary ) => {
+export const updateConversationSummary = async ( conversationId, userId, summary, summaryUpToMessageId ) => {
     const conversation = await conversationRepository.findById( userId, conversationId )
 
     if(!conversation){
         throw new Error("Conversation not found");
     }
 
-    return conversationRepository.updateSummary(conversationId, summary );
+    return conversationRepository.updateSummary(conversationId, summary, summaryUpToMessageId );
 };

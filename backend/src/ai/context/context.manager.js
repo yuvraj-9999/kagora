@@ -1,10 +1,8 @@
 import { HumanMessage, AIMessage, SystemMessage } from "@langchain/core/messages";
 import { countMessageTokens } from "./token.counter.js";
-import { RECENT_CONTEXT_TOKEN_BUDGET, CONTEXT_COMPACTION_THRESHOLD, CONTEXT_TOKEN_BUDGET } from "./context.config.js";
-import { generateSummary } from "./summarizer.js";
-import { updateConversationSummary } from "../../modules/conversations/conversation.service.js";
+import { RECENT_CONTEXT_TOKEN_BUDGET, CONTEXT_COMPACTION_THRESHOLD, CONTEXT_TOKEN_BUDGET, SUMMARY_INPUT_TOKEN_BUDGET } from "./context.config.js";
 
-const selectRecentMessages = async (messages, tokenBudget) => {
+export const selectRecentMessages = async (messages, tokenBudget) => {
     const recentMessages = [];
     let recentTokenCount = 0;
     let startIndex = null;
@@ -48,7 +46,7 @@ const selectRecentMessages = async (messages, tokenBudget) => {
                 continue;
             }
 
-            const messageTokens = await countMessageTokens(current)
+            const messageTokens = await countMessageTokens([current])
 
             if (recentTokenCount + messageTokens > tokenBudget) {
                 break;
@@ -68,6 +66,43 @@ const selectRecentMessages = async (messages, tokenBudget) => {
     };
 };
 
+export const selectSummaryBatch = async ( messages, summaryUpToMessageId, tokenBudget = SUMMARY_INPUT_TOKEN_BUDGET ) => {
+    let startIndex = 0;
+
+    if(summaryUpToMessageId){
+        const summaryIndex = messages.findIndex((message) => message._id.toString() === summaryUpToMessageId.toString());
+
+        if(summaryIndex === -1){
+            throw new Error("Summary boundary message not found");
+        }
+
+        startIndex = summaryIndex + 1;
+    }
+
+    const batch = [];
+    let tokenCount = 0;
+
+    for (let i = startIndex; i < messages.length; i++){
+        const message = messages[i];
+
+        const messageTokens = await countMessageTokens([{
+            content: message.content,
+        },]);
+
+        if(batch.length > 0 && tokenCount + messageTokens > tokenBudget){
+            break;
+        }
+
+        batch.push(message);
+        tokenCount += messageTokens;
+    }
+
+    return {
+        messages: batch,
+        tokenCount,
+        lastMessageId : batch.length > 0 ? batch[batch.length - 1]._id : null,
+    }
+}
 
 export const buildContext = async (conversation, currentMessage) => {
     const messages = conversation.messages.map((message) => {
@@ -126,5 +161,6 @@ export const buildContext = async (conversation, currentMessage) => {
     return {
         messages: contextMessages,
         contextTokenCount,
+        needsCompaction,
     };
 };

@@ -17,11 +17,14 @@
     "@upstash/redis": "^1.38.4",
     "axios": "^1.19.0",
     "bcrypt": "^6.0.0",
+    "bullmq": "^6.3.11",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "ioredis": "^6.0.0",
     "jsonwebtoken": "^9.0.3",
     "langchain": "^1.5.10",
     "mongoose": "^9.9.1",
+    "resend": "^6.32.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

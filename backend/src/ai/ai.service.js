@@ -1,6 +1,7 @@
 import { agent } from "./agents/agent.js";
-import { buildContext } from "./context/context.manager.js";
+import { buildContext, selectRecentMessages } from "./context/context.manager.js";
 import { createConversation, getConversationById, addMessage } from "../modules/conversations/conversation.service.js";
+import { summarizationQueue } from "./jobs/summarization.queue.js";
 
 export const runAI = async (message, userId, conversationId) => {
 
@@ -30,7 +31,7 @@ export const runAI = async (message, userId, conversationId) => {
 
     console.time("Context");
 
-    const { messages, contextTokenCount } = await buildContext(conversation, message);
+    const { messages, contextTokenCount, needsCompaction } = await buildContext(conversation, message);
 
     console.timeEnd("Context");
 
@@ -63,6 +64,13 @@ export const runAI = async (message, userId, conversationId) => {
         userId,
         assistantMessage
     );
+
+    if(needsCompaction){
+        await summarizationQueue.add("summarize-conversation", {
+            conversationId: conversationId.toString(),
+            userId: userId.toString(),
+        });
+    }
 
 return {
     conversationId,

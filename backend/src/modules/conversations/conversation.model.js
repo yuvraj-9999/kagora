@@ -13,9 +13,6 @@ const messageSchema = new mongoose.Schema(
             required: true,
         },
     },
-    {
-        _id: false,
-    },
 );
 
 const conversationSchema = new mongoose.Schema(
@@ -35,6 +32,11 @@ const conversationSchema = new mongoose.Schema(
         summary: {
             type: String,
             default: "",
+        },
+
+        summaryUpToMessageId: {
+            type: mongoose.Schema.Types.ObjectId,
+            default: null,
         },
 
         messages: {

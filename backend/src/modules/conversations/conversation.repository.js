@@ -34,10 +34,10 @@ export const remove = async (conversationId) => {
     return Conversation.findByIdAndDelete(conversationId);
 };
 
-export const updateSummary = async (conversationId, summary) => {
+export const updateSummary = async (conversationId, summary, summaryUpToMessageId) => {
     return Conversation.findByIdAndUpdate(
         conversationId,
-        { summary },
+        { summary, summaryUpToMessageId, },
         { returnDocument: "after" },
     );
 };
