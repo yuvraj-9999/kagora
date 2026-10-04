@@ -3,6 +3,84 @@ import env from "../../config/env.js";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
+const emailStyles = {
+    wrapper: `
+        margin: 0;
+        padding: 40px 20px;
+        background: #09080b;
+        font-family: Arial, Helvetica, sans-serif;
+    `,
+    container: `
+        max-width: 560px;
+        margin: 0 auto;
+        background: #131015;
+        border: 1px solid #2b222b;
+        border-radius: 16px;
+        overflow: hidden;
+    `,
+    content: `
+        padding: 46px 40px;
+    `,
+    brand: `
+        margin: 0;
+        color: #f4efe6;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 5px;
+    `,
+    tagline: `
+        margin: 9px 0 0;
+        color: #a9a1a5;
+        font-size: 13px;
+        letter-spacing: 1.8px;
+    `,
+    divider: `
+        width: 42px;
+        height: 1px;
+        margin: 28px 0 0;
+        background: #d6ad68;
+    `,
+    heading: `
+        margin: 42px 0 18px;
+        color: #f4efe6;
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 1.25;
+    `,
+    text: `
+        margin: 0 0 18px;
+        color: #b9b0b5;
+        font-size: 15px;
+        line-height: 1.7;
+    `,
+    button: `
+        display: inline-block;
+        padding: 14px 28px;
+        background-color: #d6ad68 !important;
+        color: #171018 !important;
+        -webkit-text-fill-color: #171018 !important;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        border-radius: 8px;
+    `,
+    note: `
+        margin: 24px 0 0;
+        color: #827980;
+        font-size: 12px;
+        line-height: 1.6;
+    `,
+    footer: `
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid #2b222b;
+        color: #70666d;
+        font-size: 12px;
+        line-height: 1.6;
+    `,
+};
+
 export const sendVerificationEmail = async (
     email,
     name,
@@ -13,40 +91,56 @@ export const sendVerificationEmail = async (
         to: email,
         subject: "Verify your Kagora account",
         html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
-                <h2>Welcome to Kagora</h2>
+            <div style="${emailStyles.wrapper}">
+                <div style="${emailStyles.container}">
+                    <div style="${emailStyles.content}">
 
-                <p>Hi ${name},</p>
+                        <p style="${emailStyles.brand}">
+                            KAGORA
+                        </p>
 
-                <p>
-                    Thank you for creating your Kagora account.
-                </p>
+                        <p style="${emailStyles.tagline}">
+                            WHERE SHADOWS MEET.
+                        </p>
 
-                <p>
-                    Please verify your email address to activate your account.
-                </p>
+                        <div style="${emailStyles.divider}"></div>
 
-                <p style="margin: 30px 0;">
-                    <a
-                        href="${verificationLink}"
-                        style="
-                            background: #111827;
-                            color: #ffffff;
-                            padding: 12px 24px;
-                            text-decoration: none;
-                            border-radius: 8px;
-                            display: inline-block;
-                        "
-                    >
-                        Verify Email
-                    </a>
-                </p>
+                        <h1 style="${emailStyles.heading}">
+                            Verify your email
+                        </h1>
 
-                <p>This verification link will expire in 24 hours.</p>
+                        <p style="${emailStyles.text}">
+                            Hi ${name},
+                        </p>
 
-                <hr>
+                        <p style="${emailStyles.text}">
+                            Your place in Kagora is almost ready.
+                            Confirm your email address to complete your
+                            account and begin exploring.
+                        </p>
 
-                <p>— Team Kagora</p>
+                        <div style="margin: 32px 0;">
+                            <a
+                                href="${verificationLink}"
+                                style="${emailStyles.button}"
+                            >
+                                Verify email
+                            </a>
+                        </div>
+
+                        <p style="${emailStyles.note}">
+                            This verification link expires in 24 hours.
+                            If you didn't create a Kagora account,
+                            you can safely ignore this email.
+                        </p>
+
+                        <div style="${emailStyles.footer}">
+                            KAGORA<br>
+                            Where Shadows Meet.
+                        </div>
+
+                    </div>
+                </div>
             </div>
         `,
     });
@@ -62,42 +156,55 @@ export const sendPasswordResetEmail = async (
         to: email,
         subject: "Reset your Kagora password",
         html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
-                <h2>Reset your password</h2>
+            <div style="${emailStyles.wrapper}">
+                <div style="${emailStyles.container}">
+                    <div style="${emailStyles.content}">
 
-                <p>Hi ${name},</p>
+                        <p style="${emailStyles.brand}">
+                            KAGORA
+                        </p>
 
-                <p>
-                    We received a request to reset your Kagora password.
-                    Click the button below to create a new password.
-                </p>
+                        <p style="${emailStyles.tagline}">
+                            WHERE SHADOWS MEET.
+                        </p>
 
-                <p style="margin: 30px 0;">
-                    <a
-                        href="${resetLink}"
-                        style="
-                            background: #111827;
-                            color: #ffffff;
-                            padding: 12px 24px;
-                            text-decoration: none;
-                            border-radius: 8px;
-                            display: inline-block;
-                        "
-                    >
-                        Reset Password
-                    </a>
-                </p>
+                        <div style="${emailStyles.divider}"></div>
 
-                <p>This link will expire in 15 minutes.</p>
+                        <h1 style="${emailStyles.heading}">
+                            Reset your password
+                        </h1>
 
-                <p>
-                    If you didn't request this password reset, you can safely
-                    ignore this email.
-                </p>
+                        <p style="${emailStyles.text}">
+                            Hi ${name},
+                        </p>
 
-                <hr>
+                        <p style="${emailStyles.text}">
+                            We received a request to reset the password
+                            for your Kagora account.
+                        </p>
 
-                <p>— Team Kagora</p>
+                        <div style="margin: 32px 0;">
+                            <a
+                                href="${resetLink}"
+                                style="${emailStyles.button}"
+                            >
+                                Reset password
+                            </a>
+                        </div>
+
+                        <p style="${emailStyles.note}">
+                            This password reset link expires in 15 minutes.
+                            If you didn't request a password reset,
+                            you can safely ignore this email.
+                        </p>
+
+                        <div style="${emailStyles.footer}">
+                            KAGORA<br>
+                            Where Shadows Meet.
+                        </div>
+
+                    </div>
+                </div>
             </div>
         `,
     });
