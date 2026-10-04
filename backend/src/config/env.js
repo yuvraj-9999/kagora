@@ -13,6 +13,9 @@ const env = {
     REFRESH_TOKEN_EXPIRY: process.env.REFRESH_TOKEN_EXPIRY,
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
+    REDIS_URL: process.env.REDIS_URL,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    CLIENT_URL: process.env.CLIENT_URL,
 };
 
 export default env;

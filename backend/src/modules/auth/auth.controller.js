@@ -1,4 +1,5 @@
-import { login, logout, refresh, register } from "./auth.service.js";
+import { tryCatch } from "bullmq";
+import { login, logout, refresh, register, verifyEmail, forgotPassword, resetPassword } from "./auth.service.js";
 
 export const registerController = async (req, res, next) => {
     try {
@@ -18,7 +19,21 @@ export const registerController = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
+
+export const verifyEmailController = async (req, res, next) => {
+    try {
+        const result = await verifyEmail(req.validated);
+
+        res.status(200).json({
+            success: true,
+            message: result.message,
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
 
 export const loginController = async (req, res, next) => {
     try {
@@ -60,7 +75,7 @@ export const refreshController = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 export const logoutController = async (req,res,next) => {
     try {
@@ -74,4 +89,32 @@ export const logoutController = async (req,res,next) => {
     } catch (error) {
         next(error);
     }
-}
+};
+
+export const forgotPasswordController = async (req, res, next) => {
+    try {
+        const result = await forgotPassword(req.validated);
+
+        res.status(200).json({
+            success: true,
+            message: result.message,
+        });
+        
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const resetPasswordController = async (req, res, next) => {
+    try {
+        const result = await resetPassword(req.validated);
+
+        res.status(200).json({
+            success: true,
+            message: result.message,
+        });
+        
+    } catch (error) {
+        next(error);
+    }
+};

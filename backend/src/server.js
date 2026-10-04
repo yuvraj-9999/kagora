@@ -1,6 +1,7 @@
 import env from "./config/env.js"
 import app from "./app.js";
 import { connectDB } from "./integrations/mongodb/mongodb.connection.js";
+import "./ai/jobs/summarization.worker.js";
 
 const startServer = async () => {
     await connectDB();
