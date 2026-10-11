@@ -117,11 +117,8 @@ export const buildContext = async (conversation, currentMessage) => {
 
     let contextMessages = messages;
 
-    console.time("Token count");
-
     const tokenCount = await countMessageTokens(messages);
 
-    console.timeEnd("Token count");
 
     const needsCompaction =
         tokenCount >= CONTEXT_COMPACTION_THRESHOLD;

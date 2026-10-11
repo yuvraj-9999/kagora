@@ -1,7 +1,7 @@
-export const generateSummary = async (existingSummary, olderMessages) => {
-    console.log("GENERATE SUMMARY ENTERED");
+import { summarizerModel } from "./summarizer.model.js";
 
-    console.log("BEFORE CONVERSATION MAP");
+export const generateSummary = async (existingSummary, olderMessages) => {
+    
 
     const conversation = olderMessages
         .map((message) => {
@@ -16,12 +16,7 @@ export const generateSummary = async (existingSummary, olderMessages) => {
 
 
 
-    console.log("AFTER CONVERSATION MAP");
-    console.log("Conversation length:", conversation.length);
-
-    console.log("BEFORE PROMPT");
-
-    console.log("Existing summary length:", existingSummary?.length ?? 0);
+    
 
     const prompt = `
 You are a conversation summarizer.
@@ -49,16 +44,10 @@ Rules:
 
 Return ONLY the updated summary.
 `;
-    console.log("AFTER PROMPT");
-    console.log("Prompt length:", prompt.length);
 
-    console.log("BEFORE SUMMARIZER INVOKE");
-
-    const response = await summarizerModel.invoke(prompt);
-
-    console.log("AFTER SUMMARIZER INVOKE");
-
-    console.dir(response, { depth: null });
+    const response = await summarizerModel.invoke(
+        prompt
+    );
 
     return response.content.trim();
 };
