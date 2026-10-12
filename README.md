@@ -8,15 +8,17 @@
 
 ### 1. Authentication & User Management
 - **JWT-Based Authentication**: Secure access and refresh token lifecycle.
-- **Password Hashing**: Secure password encryption using `bcrypt`.
+- **Password Hashing**: Secure password hashing using `bcrypt`.
 - **User Profile**: Protected `/me` endpoint to retrieve user profile details.
 - **Session Management**: Token refresh and secure logout endpoints.
+- **Email Verification**: Email verification flow with expiring verification tokens.
+- **Password Reset**: Secure password reset flow using expiring, single-use tokens delivered by email.
 
 ### 2. Movie Discovery & Details (TMDb Integration)
 - **Search**: Search movies by title with pagination support.
 - **Trending & Popular**: Fetch trending movies of the day and popular releases.
-- **Comprehensive Movie Details**: Detailed movie metadata including cast, crew, runtime, genres, budget, revenue, and ratings.
-- **Recommendations**: TMDb-backed recommendation engine for similar movies.
+- **Comprehensive Movie Details**: Detailed movie metadata, including cast, crew, runtime, genres, budget, revenue, and ratings.
+- **Recommendations**: TMDb-backed recommendations for similar movies.
 - **Local Persistence & Caching**: Automatic synchronization and storage of movie records in MongoDB.
 
 ### 3. People & Filmography
@@ -26,27 +28,24 @@
 - **Local Caching**: Person metadata persistence in MongoDB.
 
 ### 4. Favorites
-- **Toggle Favorites**: Add or remove movies to/from a user's personal favorites.
-- **Favorites List**: Paginated view of user's favorited movies with populated details.
-- **Favorite Status**: Quick check endpoint to verify if a movie is favorited.
+- **Toggle Favorites**: Add or remove movies from a user's personal favorites.
+- **Favorites List**: Paginated view of a user's favorited movies with populated details.
+- **Favorite Status**: Endpoint to check whether a movie is favorited.
 
 ### 5. Watchlists
-- **Toggle Watchlist**: Easily save movies to watch later.
+- **Toggle Watchlist**: Save movies to watch later or remove them from the watchlist.
 - **Watchlist Retrieval**: Paginated list of watchlisted movies.
-- **Watchlist Status Check**: Instant verification of a movie's presence in the user's watchlist.
+- **Watchlist Status Check**: Endpoint to verify whether a movie is in a user's watchlist.
 
 ### 6. Reviews & Ratings
-- **Movie Reviews**: Post reviews with ratings (1 to 10 scale) and comments.
-- **Movie Review Feed**: View all community reviews for a given movie.
+- **Movie Reviews**: Post reviews with ratings on a 1–10 scale and comments.
+- **Movie Review Feed**: View community reviews for a given movie.
 - **Manage Reviews**: Update and delete existing reviews with user ownership verification.
 
 ### 7. AI Agent & Conversational Assistant
-
 - **LangChain & OpenRouter Integration**: Conversational AI assistant for natural-language movie discovery and exploration.
-
-- **Tool-Based AI Architecture**: The agent can interact with Kagora's movie, people, favorites, watchlist, and review data through specialized tools.
-
-- **Context-Aware Tool Calling**: AI Agent equipped with specialized tools:
+- **Tool-Based AI Architecture**: The agent interacts with Kagora's movie, people, favorites, watchlist, and review data through specialized tools.
+- **Context-Aware Tool Calling**: Specialized AI tools for movie discovery, filmography exploration, and user-specific data retrieval:
   - `searchMoviesAITool`
   - `getMovieDetailsAITool`
   - `getTrendingMoviesAITool`
@@ -61,23 +60,17 @@
   - `getWatchlistStatusAITool`
   - `getMovieReviewsAITool`
   - `getMyReviewsAITool`
-
 - **Authenticated AI Context**: User-specific AI tools resolve data using the authenticated user's identity rather than relying on user-provided identifiers.
-
 - **Persistent Conversations**: Conversations are stored in MongoDB, allowing users to maintain multiple independent chat sessions.
-
-- **Conversation Management**: Supports creating, retrieving, listing, and deleting user conversations.
-
-- **Token-Aware Context Management**: Conversation history is analyzed using model-aware token counting rather than blindly sending the entire history to the model.
-
-- **Turn-Aware Context Selection**: When context becomes large, recent conversational turns are preserved while handling consecutive user messages and incomplete/orphaned messages safely.
-
-- **Conversation Summarization**: Older conversation history can be compressed into a persistent summary while recent messages remain available verbatim.
-
+- **Conversation Management**: Supports retrieving, listing, and deleting user conversations, with new conversations created through the AI request flow.
+- **Token-Aware Context Management**: Conversation history is analyzed using token counting to determine when context compaction is needed.
+- **Turn-Aware Context Selection**: Recent conversational turns are preserved when context becomes large, with handling for consecutive user messages and incomplete or orphaned messages.
+- **Conversation Summarization**: Older conversation history is compressed into a persistent summary while recent messages remain available verbatim.
+- **Asynchronous Summarization**: BullMQ and Redis process conversation summarization in a background job, allowing the main AI response to return without waiting for summarization to finish.
+- **Persistent Summary Boundaries**: MongoDB stores the generated summary and the message ID up to which the conversation has been summarized, supporting incremental summarization.
 - **Dual-Model AI Architecture**:
-  - **Main Agent**: Qwen3 235B A22B for tool usage, reasoning, and conversational interaction.
-  - **Summarizer**: Nemotron 3.5 Lightning for compressing older conversation history.
-
+  - **Main Agent**: NVIDIA Nemotron 3 Ultra 550B A55B (`nvidia/nemotron-3-ultra-550b-a55b:free`) for tool usage, reasoning, and conversational interaction.
+  - **Summarizer**: NVIDIA Nemotron 3 Ultra 550B A55B (`nvidia/nemotron-3-ultra-550b-a55b:free`) for compressing older conversation history.
 - **Free AI Inference**: AI inference uses free OpenRouter model endpoints without paid model usage.
 
 ---
@@ -216,7 +209,6 @@ kagora/
 - AI context performance and inference optimization
 - Frontend application
 - AI interaction and UX improvements
-- BullMQ background job architecture
 - End-to-end testing and production stabilization
 
 ---
