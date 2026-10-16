@@ -81,7 +81,7 @@
 - **Database & ODM**: MongoDB, Mongoose
 - **External Data**: TMDb (The Movie Database) API via Axios
 - **AI & LLM Orchestration**: LangChain (`@langchain/core`, `@langchain/openrouter`), OpenRouter API
-- **AI Models**: Qwen3 235B A22B (main agent), Nemotron 3.5 Lightning (conversation summarization)
+- **AI Models**: NVIDIA Nemotron 3 Ultra 550B A55B (main agent), NVIDIA Nemotron 3 Ultra 550B A55B (conversation summarization)
 - **Validation**: Zod (request body, query parameters, route params)
 - **Security & Utilities**: JSON Web Tokens (`jsonwebtoken`), `bcrypt`, `dotenv`
 
