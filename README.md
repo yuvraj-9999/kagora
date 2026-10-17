@@ -90,32 +90,47 @@
 ## Project Structure
 
 ```
+
 kagora/
 ├── backend/
 │   ├── src/
-│   │   ├── ai/               # AI agent, OpenRouter model, and LangChain tools
-│   │   │   ├── agents/       # Agent and model definitions
-│   │   │   └── tools/        # Modular AI tools for movies, people, lists, etc.
-│   │   ├── api/              # API router versioning (v1)
-│   │   ├── config/           # Environment variables configuration
-│   │   ├── integrations/     # External integrations (MongoDB, TMDb)
-│   │   ├── middlewares/      # Error handler, 404, auth middlewares
-│   │   ├── modules/          # Feature modules (Controller-Service-Repository)
-│   │   │   ├── auth/         # Authentication & token management
-│   │   │   ├── conversations/# Conversation schemas & persistence
-│   │   │   ├── favorites/    # User favorites
-│   │   │   ├── movies/       # Movies discovery & TMDb synchronization
-│   │   │   ├── people/       # Cast & crew discovery
-│   │   │   ├── reviews/      # Movie ratings and user reviews
-│   │   │   ├── users/        # User profile
-│   │   │   └── watchlists/   # Watchlist management
-│   │   ├── shared/           # Shared schemas, validators, and utilities
-│   │   ├── app.js            # Express app configuration
-│   │   └── server.js         # HTTP server entry point
+│   │   ├── ai/
+│   │   │   ├── agents/             # AI agent and main model definitions
+│   │   │   ├── context/            # Context management and summarization
+│   │   │   │   ├── context.config.js
+│   │   │   │   ├── context.manager.js
+│   │   │   │   ├── summarizer.js
+│   │   │   │   └── summarizer.model.js
+│   │   │   ├── jobs/               # BullMQ background jobs
+│   │   │   │   ├── summarization.queue.js
+│   │   │   │   └── summarization.worker.js
+│   │   │   ├── tools/              # Modular AI tools for movies, people, lists, etc.
+│   │   │   └── ai.service.js       # AI request orchestration
+│   │   ├── api/                    # API router versioning (v1)
+│   │   ├── config/                 # Environment variables configuration
+│   │   ├── integrations/
+│   │   │   ├── email/              # Resend email integration
+│   │   │   ├── mongodb/            # MongoDB connection
+│   │   │   ├── redis/              # Redis and BullMQ connection
+│   │   │   └── tmdb/               # TMDb integration
+│   │   ├── middlewares/            # Error handler, 404, auth middlewares
+│   │   ├── modules/
+│   │   │   ├── auth/               # Authentication, email verification & password reset
+│   │   │   ├── conversations/      # Conversation schemas, persistence & summaries
+│   │   │   ├── favorites/          # User favorites
+│   │   │   ├── movies/             # Movie discovery & TMDb synchronization
+│   │   │   ├── people/             # Cast & crew discovery
+│   │   │   ├── reviews/            # Movie ratings and user reviews
+│   │   │   ├── users/              # User profile
+│   │   │   └── watchlists/         # Watchlist management
+│   │   ├── shared/                 # Shared schemas, validators & utilities
+│   │   ├── app.js                  # Express app configuration
+│   │   └── server.js                # HTTP server and worker startup
 │   └── package.json
-├── frontend/                 # Client application
-├── docs/                     # Documentation
+├── frontend/                       # Client application
+├── docs/                           # Documentation
 └── README.md
+
 ```
 
 ---
