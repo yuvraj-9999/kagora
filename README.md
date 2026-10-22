@@ -211,6 +211,9 @@ kagora/
    REFRESH_TOKEN_EXPIRY=7d
    UPSTASH_REDIS_REST_URL=your_upstash_redis_rest_url
    UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_rest_token
+   REDIS_URL=your_redis_connection_url
+   RESEND_API_KEY=your_resend_api_key
+   CLIENT_URL=http://localhost:5173
    ```
 4. Start the server in development mode:
    ```bash
